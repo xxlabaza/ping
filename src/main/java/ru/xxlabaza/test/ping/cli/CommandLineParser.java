@@ -21,6 +21,7 @@ import static ch.qos.logback.classic.Logger.ROOT_LOGGER_NAME;
 import ch.qos.logback.classic.Logger;
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.ParameterException;
+import java.io.File;
 import lombok.val;
 import org.slf4j.LoggerFactory;
 
@@ -36,7 +37,7 @@ public final class CommandLineParser {
         val commonOptions = new CommonOptions();
 
         val commander = JCommander.newBuilder()
-                .programName("java -jar ping.jar")
+                .programName("java -jar " + getProgramName())
                 .addObject(commonOptions)
                 .build();
 
@@ -58,6 +59,18 @@ public final class CommandLineParser {
             val root = (Logger) LoggerFactory.getLogger(ROOT_LOGGER_NAME);
             root.setLevel(DEBUG);
         }
+    }
+
+    private static String getProgramName () {
+        val name = new File(CommandLineParser.class.getProtectionDomain()
+                .getCodeSource()
+                .getLocation()
+                .getPath())
+                .getName();
+
+        return name.contains(".jar")
+               ? name
+               : "ping.jar";
     }
 
     private CommandLineParser () {
