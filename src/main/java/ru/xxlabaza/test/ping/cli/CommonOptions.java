@@ -13,19 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ru.xxlabaza.test.ping;
+package ru.xxlabaza.test.ping.cli;
 
-import ru.xxlabaza.test.ping.cli.CommandLineParser;
+import com.beust.jcommander.Parameter;
 
 /**
- * Program's entry point.
+ * Common parsed program's options holder.
  *
  * @author Artem Labazin <xxlabaza@gmail.com>
  * @since 24.06.2017
  */
-public class Main {
+class CommonOptions {
 
-    public static void main (String[] args) {
-        CommandLineParser.parse(args);
+    @Parameter(
+            names = { "--help", "-h" },
+            description = "Print usage information.",
+            help = true
+    )
+    private boolean help;
+
+    public boolean isHelp () {
+        return help;
     }
 }

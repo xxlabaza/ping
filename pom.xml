@@ -55,6 +55,14 @@
     <main.class>ru.xxlabaza.test.ping.Main</main.class>
   </properties>
 
+  <dependencies>
+    <dependency>
+      <groupId>com.beust</groupId>
+      <artifactId>jcommander</artifactId>
+      <version>1.72</version>
+    </dependency>
+  </dependencies>
+
   <build>
     <plugins>
       <plugin>
