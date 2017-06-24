@@ -33,24 +33,36 @@ import org.slf4j.LoggerFactory;
  */
 public final class CommandLineParser {
 
+    private static final String PROGRAM_NAME;
+
+    private static final String PROGRAM_DESCRIPTION;
+
+    private static final String ARGUMENTS_ERROR_PREFIX;
+
+    static {
+        PROGRAM_NAME = "java -jar " + getProgramName();
+        PROGRAM_DESCRIPTION = "\nThe program’s aim is to test the IP network and to determine RTT (Round Trip Time)\n";
+        ARGUMENTS_ERROR_PREFIX = "\nParsing arguments failed.\n%s\n\n";
+    }
+
     public static void parse (String[] args) {
         val commonOptions = new CommonOptions();
 
         val commander = JCommander.newBuilder()
-                .programName("java -jar " + getProgramName())
+                .programName(PROGRAM_NAME)
                 .addObject(commonOptions)
                 .build();
 
         try {
             commander.parse(args);
         } catch (ParameterException ex) {
-            System.err.format("\nParsing arguments failed.\n%s\n\n", ex.getMessage());
+            System.err.format(ARGUMENTS_ERROR_PREFIX, ex.getMessage());
             commander.usage();
             System.exit(1);
         }
 
         if (commonOptions.isHelp()) {
-            System.out.println("\nThe program’s aim is to test the IP network and to determine RTT (Round Trip Time)\n");
+            System.out.println(PROGRAM_DESCRIPTION);
             commander.usage();
             System.exit(0);
         }
