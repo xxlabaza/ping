@@ -31,6 +31,6 @@ public class Main {
         CommandLineParser.parse(args);
 
         log.info("main.info", 1, 2, 3);
-        log.debug("DEBUG");
+        log.debug("main.debug");
     }
 }
