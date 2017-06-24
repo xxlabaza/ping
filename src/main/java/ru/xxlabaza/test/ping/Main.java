@@ -15,6 +15,7 @@
  */
 package ru.xxlabaza.test.ping;
 
+import lombok.extern.slf4j.Slf4j;
 import ru.xxlabaza.test.ping.cli.CommandLineParser;
 
 /**
@@ -23,9 +24,13 @@ import ru.xxlabaza.test.ping.cli.CommandLineParser;
  * @author Artem Labazin <xxlabaza@gmail.com>
  * @since 24.06.2017
  */
+@Slf4j
 public class Main {
 
     public static void main (String[] args) {
         CommandLineParser.parse(args);
+
+        log.info("INFO");
+        log.debug("DEBUG");
     }
 }

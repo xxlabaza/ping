@@ -33,4 +33,10 @@ class CommonOptions {
             help = true
     )
     private boolean help;
+
+    @Parameter(
+            names = { "--debug", "-d" },
+            description = "Setup ROOT log level to DEBUG."
+    )
+    private boolean debug;
 }

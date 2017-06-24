@@ -15,9 +15,14 @@
  */
 package ru.xxlabaza.test.ping.cli;
 
+import static ch.qos.logback.classic.Level.DEBUG;
+import static ch.qos.logback.classic.Logger.ROOT_LOGGER_NAME;
+
+import ch.qos.logback.classic.Logger;
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.ParameterException;
 import lombok.val;
+import org.slf4j.LoggerFactory;
 
 /**
  * Command line arguments parser utility class.
@@ -47,6 +52,11 @@ public final class CommandLineParser {
             System.out.println("\nThe program’s aim is to test the IP network and to determine RTT (Round Trip Time)\n");
             commander.usage();
             System.exit(0);
+        }
+
+        if (commonOptions.isDebug()) {
+            val root = (Logger) LoggerFactory.getLogger(ROOT_LOGGER_NAME);
+            root.setLevel(DEBUG);
         }
     }
 
