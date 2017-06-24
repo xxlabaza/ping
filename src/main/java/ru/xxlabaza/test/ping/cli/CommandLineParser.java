@@ -1,12 +1,12 @@
 /**
  * Copyright 2017 Artem Labazin <xxlabaza@gmail.com>.
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,14 +16,16 @@
 package ru.xxlabaza.test.ping.cli;
 
 import static ch.qos.logback.classic.Level.DEBUG;
-import static ch.qos.logback.classic.Logger.ROOT_LOGGER_NAME;
+import static org.slf4j.Logger.ROOT_LOGGER_NAME;
 
 import ch.qos.logback.classic.Logger;
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.ParameterException;
 import java.io.File;
+import java.util.ResourceBundle;
 import lombok.val;
 import org.slf4j.LoggerFactory;
+import ru.xxlabaza.test.ping.localization.UTF8Control;;
 
 /**
  * Command line arguments parser utility class.
@@ -33,6 +35,8 @@ import org.slf4j.LoggerFactory;
  */
 public final class CommandLineParser {
 
+    private static final ResourceBundle BUNDLE;
+
     private static final String PROGRAM_NAME;
 
     private static final String PROGRAM_DESCRIPTION;
@@ -40,9 +44,12 @@ public final class CommandLineParser {
     private static final String ARGUMENTS_ERROR_PREFIX;
 
     static {
+        BUNDLE = ResourceBundle.getBundle("localization/options", new UTF8Control());
+
         PROGRAM_NAME = "java -jar " + getProgramName();
-        PROGRAM_DESCRIPTION = "\nThe program’s aim is to test the IP network and to determine RTT (Round Trip Time)\n";
-        ARGUMENTS_ERROR_PREFIX = "\nParsing arguments failed.\n%s\n\n";
+
+        PROGRAM_DESCRIPTION = BUNDLE.getString("program.description");
+        ARGUMENTS_ERROR_PREFIX = BUNDLE.getString("program.argument.parse.error");
     }
 
     public static void parse (String[] args) {
@@ -51,6 +58,7 @@ public final class CommandLineParser {
         val commander = JCommander.newBuilder()
                 .programName(PROGRAM_NAME)
                 .addObject(commonOptions)
+                .resourceBundle(BUNDLE)
                 .build();
 
         try {
