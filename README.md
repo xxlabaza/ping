@@ -38,6 +38,8 @@ Log print in English:
 
 ![english log](https://github.com/xxlabaza/ping/blob/master/images/log_english.png?raw=true)
 
+Log print in Russian:
+
 ![russian log](https://github.com/xxlabaza/ping/blob/master/images/log_russian.png?raw=true)
 
 ## Built With
@@ -49,11 +51,11 @@ Log print in English:
 
 ## Changelog
 
-To see what has changed in recent versions of Ping, see the [CHANGELOG](./CHANGELOG.md).
+To see what has changed in recent versions of Ping, see the [changelog](./CHANGELOG.md) file.
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](./CONTRIBUTING.md) for details on my code of conduct, and the process for submitting pull requests to me.
+Please read [contributing](./CONTRIBUTING.md) file for details on my code of conduct, and the process for submitting pull requests to me.
 
 ## Versioning
 
@@ -65,4 +67,4 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## License
 
-This project is licensed under the Apache License 2.0 License - see the [LICENSE.md](./LICENSE) file for details
+This project is licensed under the Apache License 2.0 License - see the [license](./LICENSE) file for details
