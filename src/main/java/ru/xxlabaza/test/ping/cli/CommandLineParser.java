@@ -17,6 +17,7 @@ package ru.xxlabaza.test.ping.cli;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.ParameterException;
+import lombok.val;
 
 /**
  * Command line arguments parser utility class.
@@ -27,9 +28,9 @@ import com.beust.jcommander.ParameterException;
 public final class CommandLineParser {
 
     public static void parse (String[] args) {
-        CommonOptions commonOptions = new CommonOptions();
+        val commonOptions = new CommonOptions();
 
-        JCommander commander = JCommander.newBuilder()
+        val commander = JCommander.newBuilder()
                 .programName("java -jar ping.jar")
                 .addObject(commonOptions)
                 .build();

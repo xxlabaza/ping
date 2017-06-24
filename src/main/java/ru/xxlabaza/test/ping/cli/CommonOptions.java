@@ -16,6 +16,7 @@
 package ru.xxlabaza.test.ping.cli;
 
 import com.beust.jcommander.Parameter;
+import lombok.Getter;
 
 /**
  * Common parsed program's options holder.
@@ -23,6 +24,7 @@ import com.beust.jcommander.Parameter;
  * @author Artem Labazin <xxlabaza@gmail.com>
  * @since 24.06.2017
  */
+@Getter
 class CommonOptions {
 
     @Parameter(
@@ -31,8 +33,4 @@ class CommonOptions {
             help = true
     )
     private boolean help;
-
-    public boolean isHelp () {
-        return help;
-    }
 }
