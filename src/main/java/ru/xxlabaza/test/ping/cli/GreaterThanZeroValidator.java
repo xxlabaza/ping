@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Artem Labazin <xxlabaza@gmail.com>.
+ * Copyright 2017 xxlabaza.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,31 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ru.xxlabaza.test.ping;
 
-import ru.xxlabaza.test.ping.cli.CommandLineParser;
+package ru.xxlabaza.test.ping.cli;
+
+import com.beust.jcommander.IParameterValidator;
+import com.beust.jcommander.ParameterException;
+import lombok.val;
+import ru.xxlabaza.test.ping.localization.I18nExceptionUtil;
 
 /**
- * Program's entry point.
- *
  * @author Artem Labazin <xxlabaza@gmail.com>
- * @since 24.06.2017
+ * @since 25.06.2017
  */
-public class Main {
+public class GreaterThanZeroValidator implements IParameterValidator {
 
-    public static void main (String[] args) {
-        CommandExecutor executor;
-        try {
-            executor = CommandLineParser.parse(args);
-        } catch (Exception ex) {
-            System.exit(1);
+    @Override
+    public void validate (String name, String value) throws ParameterException {
+        val number = Integer.parseInt(value);
+        if (number > 0) {
             return;
         }
 
-        if (executor == null) {
-            return;
-        }
-
-        executor.execute();
+        val message = I18nExceptionUtil.getMessage("cli.validation.GreaterThanZero", name, value);
+        throw new ParameterException(message);
     }
 }

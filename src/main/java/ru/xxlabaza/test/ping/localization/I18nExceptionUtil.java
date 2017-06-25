@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Artem Labazin <xxlabaza@gmail.com>.
+ * Copyright 2017 xxlabaza.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,31 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ru.xxlabaza.test.ping;
 
-import ru.xxlabaza.test.ping.cli.CommandLineParser;
+package ru.xxlabaza.test.ping.localization;
+
+import java.util.ResourceBundle;
+import lombok.val;
+import org.slf4j.helpers.MessageFormatter;
 
 /**
- * Program's entry point.
- *
  * @author Artem Labazin <xxlabaza@gmail.com>
- * @since 24.06.2017
+ * @since 25.06.2017
  */
-public class Main {
+public class I18nExceptionUtil {
 
-    public static void main (String[] args) {
-        CommandExecutor executor;
-        try {
-            executor = CommandLineParser.parse(args);
-        } catch (Exception ex) {
-            System.exit(1);
-            return;
-        }
-
-        if (executor == null) {
-            return;
-        }
-
-        executor.execute();
+    public static String getMessage (String key, Object... args) {
+        val bundle = ResourceBundle.getBundle("localization/exception", new UTF8Control());
+        val messagePattern = bundle.getString(key);
+        return MessageFormatter
+                .arrayFormat(messagePattern, args)
+                .getMessage();
     }
 }

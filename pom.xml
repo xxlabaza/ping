@@ -22,7 +22,7 @@ limitations under the License.
 
   <groupId>ru.xxlabaza.test</groupId>
   <artifactId>ping</artifactId>
-  <version>0.0.1</version>
+  <version>0.1.0</version>
   <packaging>jar</packaging>
 
   <name>Ping</name>
@@ -98,7 +98,7 @@ limitations under the License.
       <artifactId>lombok</artifactId>
       <version>1.16.16</version>
     </dependency>
-    
+
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>

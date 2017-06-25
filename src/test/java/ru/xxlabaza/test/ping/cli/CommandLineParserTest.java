@@ -41,10 +41,13 @@ public class CommandLineParserTest {
 
     private static final ByteArrayOutputStream OUT;
 
+    private static final ByteArrayOutputStream ERROR;
+
     private static Locale defaultLocale;
 
     static {
         OUT = new ByteArrayOutputStream();
+        ERROR = new ByteArrayOutputStream();
     }
 
     @BeforeClass
@@ -55,11 +58,13 @@ public class CommandLineParserTest {
     @Before
     public void before () {
         System.setOut(new PrintStream(OUT));
+        System.setErr(new PrintStream(ERROR));
     }
 
     @After
     public void after () {
         System.setOut(null);
+        System.setErr(null);
 
         Logger root = (Logger) LoggerFactory.getLogger(ROOT_LOGGER_NAME);
         root.setLevel(INFO);

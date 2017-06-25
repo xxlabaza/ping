@@ -25,7 +25,11 @@ import java.io.File;
 import java.util.ResourceBundle;
 import lombok.val;
 import org.slf4j.LoggerFactory;
+import ru.xxlabaza.test.ping.CommandExecutor;
+import ru.xxlabaza.test.ping.localization.I18nExceptionUtil;
 import ru.xxlabaza.test.ping.localization.UTF8Control;
+import ru.xxlabaza.test.ping.pitcher.PitcherCommandExecutor;
+import ru.xxlabaza.test.ping.pitcher.PitcherCommandOptions;
 
 /**
  * Command line arguments parser utility class.
@@ -35,16 +39,18 @@ import ru.xxlabaza.test.ping.localization.UTF8Control;
  */
 public final class CommandLineParser {
 
-    public static void parse (String[] args) throws ParameterException {
+    public static CommandExecutor parse (String[] args) throws ParameterException {
         val bundle = ResourceBundle.getBundle("localization/options", new UTF8Control());
         val programName = "java -jar " + getProgramName();
 
         val commonOptions = new CommonOptions();
+        val pitcherCommandOptions = new PitcherCommandOptions();
 
         val commander = JCommander.newBuilder()
                 .programName(programName)
-                .addObject(commonOptions)
                 .resourceBundle(bundle)
+                .addObject(commonOptions)
+                .addCommand(pitcherCommandOptions)
                 .build();
 
         try {
@@ -60,12 +66,25 @@ public final class CommandLineParser {
             val programDescription = bundle.getString("program.description");
             System.out.println(programDescription);
             commander.usage();
-            return;
+            return null;
         }
 
         if (commonOptions.isDebug()) {
             val root = (Logger) LoggerFactory.getLogger(ROOT_LOGGER_NAME);
             root.setLevel(DEBUG);
+        }
+        if (commander.getParsedCommand() == null) {
+            return null;
+        }
+
+        switch (commander.getParsedCommand()) {
+        case PitcherCommandOptions.NAME:
+            return PitcherCommandExecutor.builder()
+                    .options(pitcherCommandOptions)
+                    .build();
+        default:
+            val message = I18nExceptionUtil.getMessage("cli.validation.UnknownCommand", commander.getParsedCommand());
+            throw new UnsupportedOperationException(message);
         }
     }
 
