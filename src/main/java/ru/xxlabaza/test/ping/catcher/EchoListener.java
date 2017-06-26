@@ -15,42 +15,40 @@
  */
 package ru.xxlabaza.test.ping.catcher;
 
-import java.net.ServerSocket;
-import java.util.concurrent.Executors;
-import lombok.Builder;
-import lombok.extern.slf4j.Slf4j;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
 import lombok.SneakyThrows;
-import lombok.val;
 import lombok.Value;
-import ru.xxlabaza.test.ping.CommandExecutor;
+import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 
 /**
- * The class represents a catcher command.
- *
- * @see CommandExecutor
+ * The class, which reads incoming message via Socket and send it back.
  *
  * @author Artem Labazin <xxlabaza@gmail.com>
  * @since 26.06.2017
  */
 @Slf4j
 @Value
-@Builder
-public class CatcherCommandExecutor implements CommandExecutor {
+class EchoListener implements Runnable {
 
-    CatcherCommandOptions options;
+    Socket socket;
 
     @Override
     @SneakyThrows
-    public void execute () {
-        log.info("catcher.CatcherCommandExecutor.greeting");
-        log.debug("catcher.CatcherCommandExecutor.options", options);
+    public void run () {
+        try (val reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+             val writer = new PrintWriter(socket.getOutputStream(), true)) {
 
-        val serverSocket = new ServerSocket(options.getPort(), 0, options.getBind());
-        val executor = Executors.newCachedThreadPool();
-        while (true) {
-            val socket = serverSocket.accept();
-            val listener = new EchoListener(socket);
-            executor.submit(listener);
+            val message = reader.readLine();
+            log.debug("catcher.EchoListener.received", message);
+
+            writer.println(message);
+            log.debug("catcher.EchoListener.send");
+        } finally {
+            socket.close();
         }
     }
 }
