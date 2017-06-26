@@ -15,10 +15,13 @@
  */
 package ru.xxlabaza.test.ping.pitcher;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+
 import java.net.InetAddress;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import lombok.Builder;
+import lombok.SneakyThrows;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -32,7 +35,7 @@ import lombok.val;
 @Slf4j
 @Value
 @Builder
-class SendMessageTask implements Runnable {
+class MessageSenderTask implements Runnable {
 
     private final static AtomicLong ID_COUNT = new AtomicLong(0L);
 
@@ -42,15 +45,36 @@ class SendMessageTask implements Runnable {
 
     int port;
 
+    Statistic statistic;
+
     @Override
     public void run () {
         val id = ID_COUNT.getAndIncrement();
-        log.info("pitcher.sendMessageTask.info", id, inetAddress, port);
+        log.debug("pitcher.MessageSenderTask.before", id, inetAddress, port);
 
+        statistic.incrementSendMessagesCounter();
         try {
-            Thread.sleep(50 + RANDOM.nextInt(350));
-        } catch (InterruptedException ex) {
-            log.error("error: ", ex);
+            sendMessage(id);
+            statistic.incrementReceivedMessagesCounter();
+        } catch (Exception ex) {
+            log.error("pitcher.MessageSenderTask.error", id, ex.getMessage());
         }
+    }
+
+    @SneakyThrows
+    private void sendMessage (long id) {
+        val startTime = System.currentTimeMillis();
+
+        MILLISECONDS.sleep(RANDOM.nextInt(500));
+
+        val sendTime = statistic.addSendTime(startTime);
+        log.debug("pitcher.MessageSenderTask.send", id);
+
+        MILLISECONDS.sleep(RANDOM.nextInt(500));
+
+        val receiveTime = statistic.addReceiveTime(sendTime);
+        log.debug("pitcher.MessageSenderTask.received", id);
+
+        statistic.addTransmittionTime(receiveTime - startTime);
     }
 }

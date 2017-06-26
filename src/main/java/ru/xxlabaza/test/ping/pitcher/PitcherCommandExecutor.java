@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2017 Artem Labazin <xxlabaza@gmail.com>.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,6 +16,7 @@
 package ru.xxlabaza.test.ping.pitcher;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 import java.util.concurrent.Executors;
 import lombok.Builder;
@@ -27,7 +28,7 @@ import ru.xxlabaza.test.ping.CommandExecutor;
 /**
  * The class represents a pitcher command.
  * <p>
- * It creates a scheduled thread pool, for periodical submitting {@link SendMessageTask}
+ * It creates a scheduled thread pool, for periodical submitting {@link MessageSenderTask}
  *
  * @see CommandExecutor
  *
@@ -43,11 +44,15 @@ public class PitcherCommandExecutor implements CommandExecutor {
 
     @Override
     public void execute () {
-        log.info("pitcher.executor.options", options);
+        log.info("pitcher.PitcherCommandExecutor.greeting");
+        log.debug("pitcher.PitcherCommandExecutor.options", options);
 
-        val sendMessageTask = SendMessageTask.builder()
+        val statisticHolder = new Statistic();
+
+        val sendMessageTask = MessageSenderTask.builder()
                 .inetAddress(options.getHostname())
                 .port(options.getPort())
+                .statistic(statisticHolder)
                 .build();
 
         val period = 1000 / options.getMessagePerSecond();
@@ -56,5 +61,12 @@ public class PitcherCommandExecutor implements CommandExecutor {
 
         Executors.newSingleThreadScheduledExecutor()
                 .scheduleAtFixedRate(() -> tasksThreadPool.execute(sendMessageTask), 0, period, MILLISECONDS);
+
+        val statisticEchoTask = StatisticEchoTask.builder()
+                .statistic(statisticHolder)
+                .build();
+
+        Executors.newSingleThreadScheduledExecutor()
+                .scheduleAtFixedRate(statisticEchoTask, 1, 1, SECONDS);
     }
 }
