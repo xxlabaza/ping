@@ -1,5 +1,5 @@
-/*
- * Copyright 2017 xxlabaza.
+/* 
+ * Copyright 2017 Artem Labazin <xxlabaza@gmail.com>.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,12 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package ru.xxlabaza.test.ping.cli;
 
-import static ch.qos.logback.classic.Level.DEBUG;
 import static ch.qos.logback.classic.Level.INFO;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.slf4j.Logger.ROOT_LOGGER_NAME;
 
@@ -41,10 +38,13 @@ public class CommandLineParserTest {
 
     private static final ByteArrayOutputStream OUT;
 
+    private static final ByteArrayOutputStream ERROR;
+
     private static Locale defaultLocale;
 
     static {
         OUT = new ByteArrayOutputStream();
+        ERROR = new ByteArrayOutputStream();
     }
 
     @BeforeClass
@@ -55,11 +55,13 @@ public class CommandLineParserTest {
     @Before
     public void before () {
         System.setOut(new PrintStream(OUT));
+        System.setErr(new PrintStream(ERROR));
     }
 
     @After
     public void after () {
         System.setOut(null);
+        System.setErr(null);
 
         Logger root = (Logger) LoggerFactory.getLogger(ROOT_LOGGER_NAME);
         root.setLevel(INFO);
@@ -83,28 +85,27 @@ public class CommandLineParserTest {
         assertTrue(OUT.toString().contains("Usage:"));
     }
 
-    @Test
-    public void testLongDebugPrint () {
-        Logger root = (Logger) LoggerFactory.getLogger(ROOT_LOGGER_NAME);
-        assertEquals(INFO, root.getLevel());
-
-        String args[] = { "--debug" };
-        CommandLineParser.parse(args);
-
-        assertEquals(DEBUG, root.getLevel());
-    }
-
-    @Test
-    public void testShortDebugPrint () {
-        Logger root = (Logger) LoggerFactory.getLogger(ROOT_LOGGER_NAME);
-        assertEquals(INFO, root.getLevel());
-
-        String args[] = { "-d" };
-        CommandLineParser.parse(args);
-
-        assertEquals(DEBUG, root.getLevel());
-    }
-
+//    @Test
+//    public void testLongDebugPrint () {
+//        Logger root = (Logger) LoggerFactory.getLogger(ROOT_LOGGER_NAME);
+//        assertEquals(INFO, root.getLevel());
+//
+//        String args[] = { "--debug" };
+//        CommandLineParser.parse(args);
+//
+//        assertEquals(DEBUG, root.getLevel());
+//    }
+//
+//    @Test
+//    public void testShortDebugPrint () {
+//        Logger root = (Logger) LoggerFactory.getLogger(ROOT_LOGGER_NAME);
+//        assertEquals(INFO, root.getLevel());
+//
+//        String args[] = { "-d" };
+//        CommandLineParser.parse(args);
+//
+//        assertEquals(DEBUG, root.getLevel());
+//    }
     @Test(expected = ParameterException.class)
     public void testParseException () {
         String args[] = { "-z" };

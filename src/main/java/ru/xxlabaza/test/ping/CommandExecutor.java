@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2017 Artem Labazin <xxlabaza@gmail.com>.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,29 +15,20 @@
  */
 package ru.xxlabaza.test.ping;
 
-import ru.xxlabaza.test.ping.cli.CommandLineParser;
-
 /**
- * Program's entry point.
+ * An object that executes parse CLI commands.
+ * <p>
+ * This interface provides a way of decoupling CLI commands execution
+ * from the mechanics of how each command will be run, including details
+ * of command's options and etc.
  *
  * @author Artem Labazin <xxlabaza@gmail.com>
- * @since 24.06.2017
+ * @since 25.06.2017
  */
-public class Main {
+public interface CommandExecutor {
 
-    public static void main (String[] args) {
-        CommandExecutor executor;
-        try {
-            executor = CommandLineParser.parse(args);
-        } catch (Exception ex) {
-            System.exit(1);
-            return;
-        }
-
-        if (executor == null) {
-            return;
-        }
-
-        executor.execute();
-    }
+    /**
+     * Executes the given command.
+     */
+    void execute ();
 }

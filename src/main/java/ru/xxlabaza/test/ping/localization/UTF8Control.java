@@ -17,9 +17,9 @@ package ru.xxlabaza.test.ping.localization;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Locale;

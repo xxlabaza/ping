@@ -8,6 +8,34 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 [Tags on this repository](https://github.com/xxlabaza/ping/tags)
 
+## [Unreleased]
+
+- Upper bound for **pitcher**'s thread pools and its queues sizes.
+- Async logging in **logback**.
+- Add more **JUnit** tests.
+- Automatic **Docker** image build with **catcher** mode (not implemented yet) for fast deploying on remote host.
+- Add Netbeans code style files.
+
+## [0.1.0](https://github.com/xxlabaza/ping/releases/tag/0.1.0) - 2017-06-26
+
+Created **pitcher** package with necessary functional (except *Socket* connection). Right now this command logs to *STDOUT* its fictional (based on Random class) execution process.
+
+### Added
+
+- Created CommandExecutor interface for **pitcher** and **catcher** (in future) commands implementations.
+- Added Pitcher's command options for CLI parsing.
+- Created *MessageSenderTask*, which send (not really right now), messages to **catcher** and log it to *Statistic* holder.
+- Added *Statistic* class for execution metrics holding.
+- Added *StatisticEchoTask* for periodically printing *Statistic* info into log.
+- Added *PitcherCommandExecutor* as an *CommandExecutor* implementation for **pitcher** functionality. It Manage *MessageSenderTask* and *StatisticEchoTask* via scheduled thread executors.
+- Introduced exception's util class for localization purposes.
+
+### Changed
+
+- Refactored logs/exception/options resource bundles.
+- Improved and extended README file.
+- Updated project's version.
+
 ## [0.0.1](https://github.com/xxlabaza/ping/releases/tag/0.0.1) - 2017-06-24
 
 Basic program's skeleton with CLI and i18n.

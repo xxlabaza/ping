@@ -20,52 +20,78 @@ import static org.slf4j.Logger.ROOT_LOGGER_NAME;
 
 import ch.qos.logback.classic.Logger;
 import com.beust.jcommander.JCommander;
-import com.beust.jcommander.ParameterException;
 import java.io.File;
 import java.util.ResourceBundle;
 import lombok.val;
 import org.slf4j.LoggerFactory;
+import ru.xxlabaza.test.ping.CommandExecutor;
+import ru.xxlabaza.test.ping.localization.I18nExceptionUtil;
 import ru.xxlabaza.test.ping.localization.UTF8Control;
+import ru.xxlabaza.test.ping.pitcher.PitcherCommandExecutor;
+import ru.xxlabaza.test.ping.pitcher.PitcherCommandOptions;
 
 /**
  * Command line arguments parser utility class.
+ * <p>
+ * This utility class produces {@link CommandExecutor} instances
+ * from user's input.
  *
  * @author Artem Labazin <xxlabaza@gmail.com>
  * @since 24.06.2017
  */
 public final class CommandLineParser {
 
-    public static void parse (String[] args) throws ParameterException {
+    /**
+     * CLI parse method.
+     *
+     * @param args user's command line arguments
+     *
+     * @return parsed {@link CommandExecutor} instance or null, if nothing to execute.
+     */
+    public static CommandExecutor parse (String[] args) {
         val bundle = ResourceBundle.getBundle("localization/options", new UTF8Control());
         val programName = "java -jar " + getProgramName();
 
         val commonOptions = new CommonOptions();
+        val pitcherCommandOptions = new PitcherCommandOptions();
 
         val commander = JCommander.newBuilder()
                 .programName(programName)
-                .addObject(commonOptions)
                 .resourceBundle(bundle)
+                .addObject(commonOptions)
+                .addCommand(pitcherCommandOptions)
                 .build();
 
         try {
             commander.parse(args);
-        } catch (ParameterException ex) {
+
+            if (commonOptions.isHelp()) {
+                val programDescription = bundle.getString("program.description");
+                System.out.println(programDescription);
+                commander.usage();
+                return null;
+            } else if (commander.getParsedCommand() == null) {
+                throw I18nExceptionUtil.throwRuntime("cli.validation.NoCommand");
+            }
+
+            if (commonOptions.isDebug()) {
+                val root = (Logger) LoggerFactory.getLogger(ROOT_LOGGER_NAME);
+                root.setLevel(DEBUG);
+            }
+
+            switch (commander.getParsedCommand()) {
+            case PitcherCommandOptions.NAME:
+                return PitcherCommandExecutor.builder()
+                        .options(pitcherCommandOptions)
+                        .build();
+            default:
+                throw I18nExceptionUtil.throwRuntime("cli.validation.UnknownCommand", commander.getParsedCommand());
+            }
+        } catch (RuntimeException ex) {
             val argumentErrorPrefix = bundle.getString("program.argument.parse.error");
             System.err.format(argumentErrorPrefix, ex.getMessage());
             commander.usage();
             throw ex;
-        }
-
-        if (commonOptions.isHelp()) {
-            val programDescription = bundle.getString("program.description");
-            System.out.println(programDescription);
-            commander.usage();
-            return;
-        }
-
-        if (commonOptions.isDebug()) {
-            val root = (Logger) LoggerFactory.getLogger(ROOT_LOGGER_NAME);
-            root.setLevel(DEBUG);
         }
     }
 
