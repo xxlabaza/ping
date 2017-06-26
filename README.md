@@ -43,11 +43,11 @@ A->B->A: max 330ms, A->B->A: avg 330ms, A->B: avg 278ms, B->A: avg 52ms
 Print help information:
 
 ```bash
-$> java -jar ping-0.2.0.jar --help
+$> java -jar ping-1.0.0.jar --help
 
 Client-server program for determining network round trip time.
 
-Usage: java -jar ping-0.2.0.jar [options] [command] [command options]
+Usage: java -jar ping-1.0.0.jar [options] [command] [command options]
   Options:
     --debug, -d
       Setup ROOT log level to DEBUG.
@@ -86,7 +86,7 @@ Usage: java -jar ping-0.2.0.jar [options] [command] [command options]
 Starting **catcher** listener:
 
 ```bash
-$> java -jar ping-0.2.0.jar -c -port 9090 -bind localhost
+$> java -jar ping-1.0.0.jar -c -port 9090 -bind localhost
 20:50:57.579 INFO  [main] : Catcher mode enabled
 ```
 
