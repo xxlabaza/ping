@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 xxlabaza.
+ * Copyright 2017 Artem Labazin <xxlabaza@gmail.com>.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package ru.xxlabaza.test.ping.cli;
 
 import com.beust.jcommander.IParameterValidator;
@@ -22,6 +21,11 @@ import lombok.val;
 import ru.xxlabaza.test.ping.localization.I18nExceptionUtil;
 
 /**
+ * Application specific option validator, It guarantees that option
+ * will be greater than zero.
+ * <p>
+ * Producing exception message is localized via program's resource bundle.
+ *
  * @author Artem Labazin <xxlabaza@gmail.com>
  * @since 25.06.2017
  */

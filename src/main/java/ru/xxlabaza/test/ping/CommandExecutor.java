@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 xxlabaza.
+ * Copyright 2017 Artem Labazin <xxlabaza@gmail.com>.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,14 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package ru.xxlabaza.test.ping;
 
 /**
+ * An object that executes parse CLI commands.
+ * <p>
+ * This interface provides a way of decoupling CLI commands execution
+ * from the mechanics of how each command will be run, including details
+ * of command's options and etc.
+ *
  * @author Artem Labazin <xxlabaza@gmail.com>
  * @since 25.06.2017
  */
 public interface CommandExecutor {
 
+    /**
+     * Executes the given command.
+     */
     void execute ();
 }

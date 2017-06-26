@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 xxlabaza.
+ * Copyright 2017 Artem Labazin <xxlabaza@gmail.com>.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package ru.xxlabaza.test.ping.pitcher;
 
 import static ru.xxlabaza.test.ping.pitcher.PitcherCommandOptions.NAME;
@@ -32,6 +31,8 @@ import ru.xxlabaza.test.ping.cli.GreaterThanZeroValidator;
 import ru.xxlabaza.test.ping.localization.I18nExceptionUtil;
 
 /**
+ * Pitcher command specific options holder.
+ *
  * @author Artem Labazin <xxlabaza@gmail.com>
  * @since 25.06.2017
  */
@@ -84,6 +85,9 @@ public class PitcherCommandOptions {
                : null;
     }
 
+    /**
+     * Program's specific option validator for checking generating message size.
+     */
     public static class MessageSizeValidator implements IParameterValidator {
 
         @Override
