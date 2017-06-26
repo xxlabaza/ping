@@ -150,9 +150,9 @@ Creating ping-catcher
 3. let's check docker iamges:
 ```bash
 $> docker images
-REPOSITORY                                        TAG                 IMAGE ID            CREATED             SIZE
-xxlabaza/ping                                     1.0.0               85b405f9af66        31 minutes ago      170 MB
-xxlabaza/ping                                     latest              85b405f9af66        31 minutes ago      170 MB
+REPOSITORY        TAG        IMAGE ID         CREATED            SIZE
+xxlabaza/ping     1.0.0      85b405f9af66     31 minutes ago     170 MB
+xxlabaza/ping     latest     85b405f9af66     31 minutes ago     170 MB
 ```
 
 4. after that we can check it by launching **pitcher**:
