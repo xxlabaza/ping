@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Add more **JUnit** tests.
 - Add Netbeans code style files.
 - Rewrite **catcher** to NIO.
+- Let's Travis build test automatically.
 
 ## [1.0.0](https://github.com/xxlabaza/ping/releases/tag/1.0.0) - 2017-06-26
 
