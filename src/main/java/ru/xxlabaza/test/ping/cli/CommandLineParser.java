@@ -25,6 +25,7 @@ import java.util.ResourceBundle;
 import lombok.val;
 import org.slf4j.LoggerFactory;
 import ru.xxlabaza.test.ping.CommandExecutor;
+import ru.xxlabaza.test.ping.catcher.CatcherCommandExecutor;
 import ru.xxlabaza.test.ping.catcher.CatcherCommandOptions;
 import ru.xxlabaza.test.ping.localization.I18nExceptionUtil;
 import ru.xxlabaza.test.ping.localization.UTF8Control;
@@ -88,7 +89,9 @@ public final class CommandLineParser {
                         .options(pitcherCommandOptions)
                         .build();
             case CatcherCommandOptions.NAME:
-                return null;
+                return CatcherCommandExecutor.builder()
+                        .options(catcherCommandOptions)
+                        .build();
             default:
                 throw I18nExceptionUtil.throwRuntime("cli.validation.UnknownCommand", commander.getParsedCommand());
             }
