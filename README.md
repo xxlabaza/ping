@@ -31,7 +31,7 @@ The output of the program (in **pitcher** mode) shows the following:
 Example of output (**pitcher** mode):
 
 ```bash
-$> java -jar ping-0.1.0.jar -p -port 9090 localhost
+$> java -jar ping-1.0.0.jar -p -port 9090 localhost
 16:36:38.379 INFO  [main] : Pitcher mode enabled
 16:36:39.442 INFO  [pool-3-thread-1] :
 total send and received messages: 1, the last second 1 msgs/s
@@ -93,7 +93,7 @@ $> java -jar ping-0.2.0.jar -c -port 9090 -bind localhost
 Launching the program in **pitcher** mode:
 
 ```bash
-$> java -jar ping-0.1.0.jar -p -port 9090 localhost
+$> java -jar ping-1.0.0.jar -p -port 9090 localhost
 16:36:38.379 INFO  [main] : Pitcher mode enabled
 16:36:39.442 INFO  [pool-3-thread-1] :
 total send and received messages: 1, the last second 1 msgs/s
@@ -129,12 +129,50 @@ Log print in Russian:
 
 ![russian log](https://github.com/xxlabaza/ping/blob/master/images/log_russian.png?raw=true)
 
+### Docker support
+
+For fast deploying on remote host, you could build Docker image of this program and launch it with [docker-compose.yml](./docker-compose.yml) test file.
+
+How to build and launch **Docker** image:
+
+1. build project with *docker* goal for creating program's **Docker** image:
+```bash
+$> mvn clean package docker:build
+```
+
+2. launch it, I prefer **docker-compose**, for that you could just type the following (in project root folder):
+```bash
+$> docker-compose up -d
+Creating network "ping_default" with the default driver
+Creating ping-catcher
+```
+
+3. let's check docker iamges:
+```bash
+$> docker images
+REPOSITORY                                        TAG                 IMAGE ID            CREATED             SIZE
+xxlabaza/ping                                     1.0.0               85b405f9af66        31 minutes ago      170 MB
+xxlabaza/ping                                     latest              85b405f9af66        31 minutes ago      170 MB
+```
+
+4. after that we can check it by launching **pitcher**:
+```bash
+$> java -jar ping-1.0.0.jar -p -port 9090 localhost
+21:46:39.875 INFO  [main] : Pitcher mode enabled
+21:46:40.933 INFO  [pool-3-thread-1] :
+total send and received messages: 1, the last second 1 msgs/s
+A->B->A: max 16ms, A->B->A: avg 16ms, A->B: avg 11ms, B->A: avg 5ms
+
+...
+```
+
 ## Built With
 
 * [Maven](https://maven.apache.org/) - dependency management
 * [JCommander](http://jcommander.org) - small Java framework that makes it trivial to parse command line parameters
 * [Lombok](https://projectlombok.org) - is used to reduce boilerplate code
 * [Logback](https://logback.qos.ch) - is faster logging systems
+* [Docker](https://www.docker.com) - additional layer of abstraction and automation of operating-system-level virtualization
 
 ## Changelog
 

@@ -11,11 +11,27 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 
 - Upper bound for **pitcher**'s thread pools and its queues sizes.
-- Async logging in **logback**.
 - Add more **JUnit** tests.
-- Automatic **Docker** image build with **catcher** mode (not implemented yet) for fast deploying on remote host.
 - Add Netbeans code style files.
 - Rewrite **catcher** to NIO.
+
+## [1.0.0](https://github.com/xxlabaza/ping/releases/tag/1.0.0) - 2017-06-26
+
+Finally, correct pitcher-to-catcher communication via Sockets.
+
+### Added
+
+- Now, **pitcher** is able to open *Socket* connection and send data (right now - only mesage's id) to remote host.
+
+- Added automatic **Docker** image build for fast deploying on remote host.
+
+- Added async logging in **logback**.
+
+### Changed
+
+- Corrected *logs* bundle with new text.
+
+- Improved README.
 
 ## [0.2.0](https://github.com/xxlabaza/ping/releases/tag/0.2.0) - 2017-06-26
 

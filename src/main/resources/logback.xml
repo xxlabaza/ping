@@ -25,7 +25,13 @@ limitations under the License.
     </encoder>
   </appender>
 
-  <root level="INFO">
+  <appender name="ASYNC-STDOUT" class="ch.qos.logback.classic.AsyncAppender">
+    <queueSize>500</queueSize>
+    <discardingThreshold>0</discardingThreshold>
     <appender-ref ref="STDOUT"/>
+  </appender>
+
+  <root level="INFO">
+    <appender-ref ref="ASYNC-STDOUT" />
   </root>
 </configuration>

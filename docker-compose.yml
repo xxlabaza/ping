@@ -1,0 +1,11 @@
+
+version: '2'
+
+services:
+
+  ping-catcher:
+    container_name: 'ping-catcher'
+    image:          'xxlabaza/ping:1.0.0'
+    command: ["-c", "-bind", "0.0.0.0", "-port", "9090"]
+    ports:
+      - '9090:9090'

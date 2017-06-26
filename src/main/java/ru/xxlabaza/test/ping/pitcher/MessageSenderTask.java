@@ -15,10 +15,11 @@
  */
 package ru.xxlabaza.test.ping.pitcher;
 
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.InetAddress;
-import java.util.Random;
+import java.net.Socket;
 import java.util.concurrent.atomic.AtomicLong;
 import lombok.Builder;
 import lombok.SneakyThrows;
@@ -38,8 +39,6 @@ import lombok.val;
 class MessageSenderTask implements Runnable {
 
     private final static AtomicLong ID_COUNT = new AtomicLong(0L);
-
-    private final static Random RANDOM = new Random(System.nanoTime());
 
     InetAddress inetAddress;
 
@@ -65,16 +64,19 @@ class MessageSenderTask implements Runnable {
     private void sendMessage (long id) {
         val startTime = System.currentTimeMillis();
 
-        MILLISECONDS.sleep(RANDOM.nextInt(500));
+        try (val socket = new Socket(inetAddress, port)) {
+            val writer = new PrintWriter(socket.getOutputStream(), true);
+            val reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-        val sendTime = statistic.addSendTime(startTime);
-        log.debug("pitcher.MessageSenderTask.send", id);
+            writer.println(id);
+            val sendTime = statistic.addSendTime(startTime);
+            log.debug("pitcher.MessageSenderTask.send", id);
 
-        MILLISECONDS.sleep(RANDOM.nextInt(500));
+            val back = reader.readLine();
+            val receiveTime = statistic.addReceiveTime(sendTime);
+            log.debug("pitcher.MessageSenderTask.received", id, back);
 
-        val receiveTime = statistic.addReceiveTime(sendTime);
-        log.debug("pitcher.MessageSenderTask.received", id);
-
-        statistic.addTransmittionTime(receiveTime - startTime);
+            statistic.addTransmittionTime(receiveTime - startTime);
+        }
     }
 }

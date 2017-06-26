@@ -22,7 +22,7 @@ limitations under the License.
 
   <groupId>ru.xxlabaza.test</groupId>
   <artifactId>ping</artifactId>
-  <version>0.2.0</version>
+  <version>1.0.0</version>
   <packaging>jar</packaging>
 
   <name>Ping</name>
@@ -128,6 +128,36 @@ limitations under the License.
             </configuration>
           </execution>
         </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>com.spotify</groupId>
+        <artifactId>docker-maven-plugin</artifactId>
+        <version>1.0.0</version>
+        <executions>
+          <execution>
+            <phase>deploy</phase>
+            <goals>
+              <goal>build</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <imageName>xxlabaza/${project.artifactId}</imageName>
+          <dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
+          <resources>
+            <resource>
+              <targetPath>/</targetPath>
+              <directory>${project.build.directory}</directory>
+              <include>${project.build.finalName}.jar</include>
+            </resource>
+          </resources>
+          <forceTags>true</forceTags>
+          <imageTags>
+            <imageTag>${project.version}</imageTag>
+            <imageTag>latest</imageTag>
+          </imageTags>
+        </configuration>
       </plugin>
     </plugins>
   </build>
