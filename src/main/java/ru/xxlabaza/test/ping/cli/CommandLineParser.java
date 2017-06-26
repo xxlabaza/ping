@@ -25,6 +25,8 @@ import java.util.ResourceBundle;
 import lombok.val;
 import org.slf4j.LoggerFactory;
 import ru.xxlabaza.test.ping.CommandExecutor;
+import ru.xxlabaza.test.ping.catcher.CatcherCommandExecutor;
+import ru.xxlabaza.test.ping.catcher.CatcherCommandOptions;
 import ru.xxlabaza.test.ping.localization.I18nExceptionUtil;
 import ru.xxlabaza.test.ping.localization.UTF8Control;
 import ru.xxlabaza.test.ping.pitcher.PitcherCommandExecutor;
@@ -54,12 +56,14 @@ public final class CommandLineParser {
 
         val commonOptions = new CommonOptions();
         val pitcherCommandOptions = new PitcherCommandOptions();
+        val catcherCommandOptions = new CatcherCommandOptions();
 
         val commander = JCommander.newBuilder()
                 .programName(programName)
                 .resourceBundle(bundle)
                 .addObject(commonOptions)
                 .addCommand(pitcherCommandOptions)
+                .addCommand(catcherCommandOptions)
                 .build();
 
         try {
@@ -83,6 +87,10 @@ public final class CommandLineParser {
             case PitcherCommandOptions.NAME:
                 return PitcherCommandExecutor.builder()
                         .options(pitcherCommandOptions)
+                        .build();
+            case CatcherCommandOptions.NAME:
+                return CatcherCommandExecutor.builder()
+                        .options(catcherCommandOptions)
                         .build();
             default:
                 throw I18nExceptionUtil.throwRuntime("cli.validation.UnknownCommand", commander.getParsedCommand());
