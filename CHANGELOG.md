@@ -15,10 +15,25 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Add more **JUnit** tests.
 - Automatic **Docker** image build with **catcher** mode (not implemented yet) for fast deploying on remote host.
 - Add Netbeans code style files.
+- Rewrite **catcher** to NIO.
+
+## [0.2.0](https://github.com/xxlabaza/ping/releases/tag/0.2.0) - 2017-06-26
+
+Created **catcher** package with necessary functionality.
+
+### Added
+
+- Created **catcher** CLI command with related options.
+- Catcher's implementation based on IO and thread pool.
+
+### Changed
+
+- Incremented JAR's version.
+- Improved README.
 
 ## [0.1.0](https://github.com/xxlabaza/ping/releases/tag/0.1.0) - 2017-06-26
 
-Created **pitcher** package with necessary functional (except *Socket* connection). Right now this command logs to *STDOUT* its fictional (based on Random class) execution process.
+Created **pitcher** package with necessary functionality (except *Socket* connection). Right now this command logs to *STDOUT* its fictional (based on Random class) execution process.
 
 ### Added
 

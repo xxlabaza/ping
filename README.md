@@ -43,11 +43,11 @@ A->B->A: max 330ms, A->B->A: avg 330ms, A->B: avg 278ms, B->A: avg 52ms
 Print help information:
 
 ```bash
-$> java -jar ping-0.1.0.jar -h
+$> java -jar ping-0.2.0.jar --help
 
 Client-server program for determining network round trip time.
 
-Usage: java -jar ping-0.1.0.jar [options] [command] [command options]
+Usage: java -jar ping-0.2.0.jar [options] [command] [command options]
   Options:
     --debug, -d
       Setup ROOT log level to DEBUG.
@@ -70,6 +70,24 @@ Usage: java -jar ping-0.1.0.jar [options] [command] [command options]
             Message length, minimum: 50, maximum: 3000.
             Default: 300
 
+    -c      Catcher mode. The Catcher (message catcher) runs on the second,
+            'B', computer and have the functionality of receiving the message
+            and sending replies to the message sender.
+
+      Usage: -c [options]
+        Options:
+        * -bind
+            TCP socket bind address that will be used to run listen.
+        * -port
+            TCP socket port used for listening.
+
+```
+
+Starting **catcher** listener:
+
+```bash
+$> java -jar ping-0.2.0.jar -c -port 9090 -bind localhost
+20:50:57.579 INFO  [main] : Catcher mode enabled
 ```
 
 Launching the program in **pitcher** mode:
