@@ -15,8 +15,11 @@
  */
 package ru.xxlabaza.test.ping.pitcher;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -65,8 +68,8 @@ class MessageSenderTask implements Runnable {
         val startTime = System.currentTimeMillis();
 
         try (val socket = new Socket(inetAddress, port)) {
-            val writer = new PrintWriter(socket.getOutputStream(), true);
-            val reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            val writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), UTF_8), true);
+            val reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), UTF_8));
 
             writer.println(id);
             val sendTime = statistic.addSendTime(startTime);

@@ -50,7 +50,7 @@ public class CatcherCommandExecutor implements CommandExecutor {
         while (true) {
             val socket = serverSocket.accept();
             val listener = new EchoListener(socket);
-            executor.submit(listener);
+            executor.execute(listener);
         }
     }
 }

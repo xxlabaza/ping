@@ -15,8 +15,11 @@
  */
 package ru.xxlabaza.test.ping.catcher;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 import lombok.SneakyThrows;
@@ -39,8 +42,8 @@ class EchoListener implements Runnable {
     @Override
     @SneakyThrows
     public void run () {
-        try (val reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-             val writer = new PrintWriter(socket.getOutputStream(), true)) {
+        try (val reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), UTF_8));
+             val writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), UTF_8), true)) {
 
             val message = reader.readLine();
             log.debug("catcher.EchoListener.received", message);
