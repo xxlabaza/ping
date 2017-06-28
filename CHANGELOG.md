@@ -11,10 +11,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 
 - Upper bound for **pitcher**'s thread pools and its queues sizes.
-- Add more **JUnit** tests.
-- Add Netbeans code style files.
-- Rewrite **catcher** to NIO.
 - Let's Travis build test automatically.
+- Reduce code complexity and do refactoring.
+
+## [1.1.0](https://github.com/xxlabaza/ping/releases/tag/1.1.0) - 2017-06-28
+
+Welcome to NIO!
+
+### Added
+
+- Included Netbeans code format file.
+
+- Created few tests for **catcher** mode.
+
+### Changed
+
+- Rewrited **catcher** mode to NIO.
+
+- Improved README.
 
 ## [1.0.0](https://github.com/xxlabaza/ping/releases/tag/1.0.0) - 2017-06-26
 
