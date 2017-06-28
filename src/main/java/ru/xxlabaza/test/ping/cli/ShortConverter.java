@@ -15,28 +15,23 @@
  */
 package ru.xxlabaza.test.ping.cli;
 
-import com.beust.jcommander.Parameter;
-import lombok.Getter;
+import com.beust.jcommander.IStringConverter;
+import com.beust.jcommander.ParameterException;
 
 /**
- * Common parsed program's options holder.
+ * Custom field converter from {@link String} to {@link Short} type.
  *
  * @author Artem Labazin <xxlabaza@gmail.com>
- * @since 24.06.2017
+ * @since 28.06.2017
  */
-@Getter
-class CommonOptions {
+public class ShortConverter implements IStringConverter<Short> {
 
-    @Parameter(
-            names = { "--help", "-h" },
-            descriptionKey = "common.help",
-            help = true
-    )
-    private boolean help;
-
-    @Parameter(
-            names = { "--debug", "-d" },
-            descriptionKey = "common.debug"
-    )
-    private boolean debug;
+    @Override
+    public Short convert (String value) {
+        try {
+            return Short.parseShort(value);
+        } catch (NumberFormatException ex) {
+            throw new ParameterException(ex.getMessage());
+        }
+    }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 xxlabaza.
+ * Copyright 2017 Artem Labazin <xxlabaza@gmail.com>.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package ru.xxlabaza.test.ping.pitcher;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -37,8 +36,6 @@ import lombok.val;
         makeFinal = true
 )
 class Statistic {
-
-    // AtomicLong totalSend = new AtomicLong(0L);
 
     AtomicLong totalReceived = new AtomicLong(0L);
 

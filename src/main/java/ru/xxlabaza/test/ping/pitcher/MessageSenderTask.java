@@ -15,15 +15,13 @@
  */
 package ru.xxlabaza.test.ping.pitcher;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
+import java.io.BufferedOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.nio.ByteBuffer;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicLong;
+import javax.xml.bind.DatatypeConverter;
 import lombok.Builder;
 import lombok.SneakyThrows;
 import lombok.Value;
@@ -41,11 +39,16 @@ import lombok.val;
 @Builder
 class MessageSenderTask implements Runnable {
 
+    // 'messageSize + messageId' in bytes
+    private final static int HEADER_SIZE = 10;
+
     private final static AtomicLong ID_COUNT = new AtomicLong(0L);
 
     InetAddress inetAddress;
 
     int port;
+
+    short messageSize;
 
     Statistic statistic;
 
@@ -54,32 +57,64 @@ class MessageSenderTask implements Runnable {
         val id = ID_COUNT.getAndIncrement();
         log.debug("pitcher.MessageSenderTask.before", id, inetAddress, port);
 
-        statistic.incrementSendMessagesCounter();
         try {
             sendMessage(id);
-            statistic.incrementReceivedMessagesCounter();
         } catch (Exception ex) {
             log.error("pitcher.MessageSenderTask.error", id, ex.getMessage());
+            ex.printStackTrace();
         }
     }
 
     @SneakyThrows
     private void sendMessage (long id) {
+        val message = createMessage(id);
         val startTime = System.currentTimeMillis();
 
         try (val socket = new Socket(inetAddress, port)) {
-            val writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), UTF_8), true);
-            val reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), UTF_8));
+            val writer = new BufferedOutputStream(socket.getOutputStream());
+            val reader = socket.getInputStream();
 
-            writer.println(id);
+            writer.write(message);
+            writer.flush();
+
             val sendTime = statistic.addSendTime(startTime);
+            statistic.incrementSendMessagesCounter();
             log.debug("pitcher.MessageSenderTask.send", id);
 
-            val back = reader.readLine();
-            val receiveTime = statistic.addReceiveTime(sendTime);
-            log.debug("pitcher.MessageSenderTask.received", id, back);
+            byte[] back = new byte[message.length];
+            int count = 0;
+            do {
+                count += reader.read(back, count, back.length - count);
+            } while (count != -1 && count != back.length);
 
+            val receiveTime = statistic.addReceiveTime(sendTime);
             statistic.addTransmittionTime(receiveTime - startTime);
+            statistic.incrementReceivedMessagesCounter();
+
+            if (log.isDebugEnabled()) {
+                log.debug("pitcher.MessageSenderTask.received", id, count, print(back));
+            }
         }
+    }
+
+    private byte[] createMessage (long id) {
+        val body = new byte[messageSize - HEADER_SIZE];
+        ThreadLocalRandom.current().nextBytes(body);
+        return ByteBuffer.allocate(messageSize)
+                .putShort(messageSize)
+                .putLong(id)
+                .put(body)
+                .array();
+    }
+
+    private String print (byte[] bytes) {
+        val buffer = ByteBuffer.wrap(bytes);
+
+        StringBuilder sb = new StringBuilder('\n')
+                .append("size: ").append(buffer.getShort()).append('\n')
+                .append("id: ").append(buffer.getLong()).append('\n');
+
+        val hexString = DatatypeConverter.printHexBinary(buffer.array());
+        return sb.append("body: ").append(hexString).toString();
     }
 }

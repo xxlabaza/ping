@@ -52,6 +52,7 @@ public class PitcherCommandExecutor implements CommandExecutor {
         val sendMessageTask = MessageSenderTask.builder()
                 .inetAddress(options.getHostname())
                 .port(options.getPort())
+                .messageSize(options.getSize())
                 .statistic(statisticHolder)
                 .build();
 

@@ -21,8 +21,7 @@ import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
 import com.beust.jcommander.converters.InetAddressConverter;
 import java.net.InetAddress;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.Data;
 import ru.xxlabaza.test.ping.cli.GreaterThanZeroValidator;
 
 /**
@@ -31,8 +30,7 @@ import ru.xxlabaza.test.ping.cli.GreaterThanZeroValidator;
  * @author Artem Labazin <xxlabaza@gmail.com>
  * @since 26.06.2017
  */
-@Getter
-@ToString
+@Data
 @Parameters(
         commandNames = NAME,
         commandDescriptionKey = "catcher.command.description"

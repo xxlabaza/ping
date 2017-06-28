@@ -28,6 +28,7 @@ import lombok.Getter;
 import lombok.ToString;
 import lombok.val;
 import ru.xxlabaza.test.ping.cli.GreaterThanZeroValidator;
+import ru.xxlabaza.test.ping.cli.ShortConverter;
 import ru.xxlabaza.test.ping.localization.I18nExceptionUtil;
 
 /**
@@ -66,10 +67,11 @@ public class PitcherCommandOptions {
     @Parameter(
             names = "-size",
             descriptionKey = "pitcher.command.option.size",
+            converter = ShortConverter.class,
             arity = 1,
             validateWith = MessageSizeValidator.class
     )
-    private int size = 300;
+    private short size = 300;
 
     @Parameter(
             descriptionKey = "pitcher.command.option.hostname",

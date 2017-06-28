@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2017 Artem Labazin <xxlabaza@gmail.com>.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,7 +22,7 @@ import lombok.val;
 import org.slf4j.helpers.MessageFormatter;
 
 /**
- * Custom <link>ClassicConverter</link> implementation for internationalization log messages.
+ * Custom {@link ClassicConverter} implementation for internationalization log messages.
  *
  * @see ClassicConverter
  *
