@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-- Upper bound for **pitcher**'s thread pools and its queues sizes.
+- Set up upper bound for **pitcher**'s thread pools and its queues sizes.
 - Let's Travis build test automatically.
 - Reduce code complexity and do refactoring.
 
