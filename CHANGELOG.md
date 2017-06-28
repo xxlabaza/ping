@@ -20,6 +20,8 @@ Welcome to NIO!
 
 ### Added
 
+- Added PMD and FindBugs plugins.
+
 - Included Netbeans code format file.
 
 - Created few tests for **catcher** mode.
