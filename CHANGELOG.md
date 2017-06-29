@@ -13,6 +13,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Set up upper bound for **pitcher**'s thread pools and its queues sizes.
 - Let's Travis build test automatically.
 - Reduce code complexity and do refactoring.
+- Socket timeout.
+
+## [1.1.1](https://github.com/xxlabaza/ping/releases/tag/1.1.1) - 2017-06-29
+
+More restrictions.
+
+### Added
+
+- Add client's (pitcher) socket timeouts for connecting and reading.
+
+- Add pitcher's send messages thread pool initial value and upper bound value.
 
 ## [1.1.0](https://github.com/xxlabaza/ping/releases/tag/1.1.0) - 2017-06-28
 

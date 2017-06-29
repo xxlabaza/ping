@@ -19,6 +19,8 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import java.util.concurrent.Executors;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
 import lombok.Builder;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
@@ -58,7 +60,11 @@ public class PitcherCommandExecutor implements CommandExecutor {
 
         val period = 1000 / options.getMessagePerSecond();
 
-        val tasksThreadPool = Executors.newCachedThreadPool();
+        val tasksThreadPool = new ThreadPoolExecutor(
+                1, options.getMessagePerSecond() * 4,
+                20L, SECONDS,
+                new SynchronousQueue<Runnable>()
+        );
 
         Executors.newSingleThreadScheduledExecutor()
                 .scheduleAtFixedRate(() -> tasksThreadPool.execute(sendMessageTask), 0, period, MILLISECONDS);

@@ -15,8 +15,11 @@
  */
 package ru.xxlabaza.test.ping.pitcher;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 import java.io.BufferedOutputStream;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.util.concurrent.ThreadLocalRandom;
@@ -70,7 +73,10 @@ class MessageSenderTask implements Runnable {
         val message = createMessage(id);
         val startTime = System.currentTimeMillis();
 
-        try (val socket = new Socket(inetAddress, port)) {
+        try (val socket = new Socket()) {
+            socket.connect(new InetSocketAddress(inetAddress, port), (int) SECONDS.toMillis(10));
+            socket.setSoTimeout((int) SECONDS.toMillis(20));
+
             val writer = new BufferedOutputStream(socket.getOutputStream());
             val reader = socket.getInputStream();
 

@@ -31,7 +31,7 @@ The output of the program (in **pitcher** mode) shows the following:
 Example of output (**pitcher** mode):
 
 ```bash
-$> java -jar ping-1.1.0.jar -p -port 9090 localhost
+$> java -jar ping-1.1.1.jar -p -port 9090 localhost
 16:36:38.379 INFO  [main] : Pitcher mode enabled
 16:36:39.442 INFO  [pool-3-thread-1] :
 total send and received messages: 1, the last second 1 msgs/s
@@ -43,11 +43,11 @@ A->B->A: max 330ms, A->B->A: avg 330ms, A->B: avg 278ms, B->A: avg 52ms
 Print help information:
 
 ```bash
-$> java -jar ping-1.1.0.jar --help
+$> java -jar ping-1.1.1.jar --help
 
 Client-server program for determining network round trip time.
 
-Usage: java -jar ping-1.1.0.jar [options] [command] [command options]
+Usage: java -jar ping-1.1.1.jar [options] [command] [command options]
   Options:
     --debug, -d
       Setup ROOT log level to DEBUG.
@@ -86,14 +86,14 @@ Usage: java -jar ping-1.1.0.jar [options] [command] [command options]
 Starting **catcher** listener:
 
 ```bash
-$> java -jar ping-1.1.0.jar -c -port 9090 -bind localhost
+$> java -jar ping-1.1.1.jar -c -port 9090 -bind localhost
 20:50:57.579 INFO  [main] : Catcher mode enabled
 ```
 
 Launching the program in **pitcher** mode:
 
 ```bash
-$> java -jar ping-1.1.0.jar -p -port 9090 localhost
+$> java -jar ping-1.1.1.jar -p -port 9090 localhost
 16:36:38.379 INFO  [main] : Pitcher mode enabled
 16:36:39.442 INFO  [pool-3-thread-1] :
 total send and received messages: 1, the last second 1 msgs/s
@@ -151,13 +151,13 @@ Creating ping-catcher
 ```bash
 $> docker images
 REPOSITORY        TAG        IMAGE ID         CREATED            SIZE
-xxlabaza/ping     1.1.0      85b405f9af66     31 minutes ago     170 MB
+xxlabaza/ping     1.1.1      85b405f9af66     31 minutes ago     170 MB
 xxlabaza/ping     latest     85b405f9af66     31 minutes ago     170 MB
 ```
 
 4. after that we can check it by launching **pitcher**:
 ```bash
-$> java -jar ping-1.1.0.jar -p -port 9090 localhost
+$> java -jar ping-1.1.1.jar -p -port 9090 localhost
 21:46:39.875 INFO  [main] : Pitcher mode enabled
 21:46:40.933 INFO  [pool-3-thread-1] :
 total send and received messages: 1, the last second 1 msgs/s
